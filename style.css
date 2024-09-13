@@ -2,6 +2,11 @@
   margin: 0;
   box-sizing: border-box;
 }
+/* 
+#mainContainer #nameCardContainer #nameCardContent,
+#mainContainer #nameCardContainer #nameCardCover {
+  animation-play-state: paused;
+} */
 
 /* Always centered */
 #mainContainer {
@@ -54,33 +59,41 @@
   border-radius: 50%;
 }
 
-#nameCardCover:hover {
-  animation: shrinkCover 1s linear;
-  animation-fill-mode: forwards;
-  animation-direction: alternate;
-}
-
 #nameCardContent {
   background-color: white;
   color: black;
   font-weight: 700;
   position: absolute;
   content-visibility: hidden;
-  animation: shrinkCover 1s linear;
   justify-content: flex-start;
-}
-
-#nameCardContent:hover {
-  content-visibility: visible;
-  animation: extendContent 1s linear;
-  animation-fill-mode: forwards;
-  z-index: 20;
-  order: 0;
 }
 
 #nameCardContent a {
   display: block;
   margin-top: 20%;
+}
+
+/* animation */
+
+#nameCardContainer:hover #nameCardCover {
+  animation: shrinkCover 1s linear;
+  animation-fill-mode: forwards;
+}
+
+#nameCardContainer:hover #nameCardContent {
+  animation: extendContent 1s linear;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+}
+
+#nameCardContainer:not(:hover) #nameCardContent {
+  animation: extendContent-reverse 1s linear;
+  animation-fill-mode: forwards;
+}
+
+#nameCardContainer:not(:hover) #nameCardCover {
+  animation: shrinkCover-reverse 1s linear;
+  animation-fill-mode: forwards;
 }
 
 @keyframes shrinkCover {
@@ -92,19 +105,60 @@
   }
   100% {
     transform: scaleX(0);
-    order: -1;
-    display: none;
+    content-visibility: hidden;
   }
 }
 
 @keyframes extendContent {
   0% {
-    transform: scaleX(0.2);
+    content-visibility: visible;
+    transform: scaleX(0);
   }
   50% {
     transform: scaleX(0.5);
   }
   100% {
     transform: scaleX(1);
+    content-visibility: visible;
+  }
+}
+
+@keyframes extendContent-reverse {
+  0% {
+    content-visibility: visible;
+    transform: scaleX(1);
+    z-index: 20;
+  }
+  50% {
+    transform: scaleX(0.5);
+  }
+
+  75% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(0);
+    content-visibility: hidden;
+  }
+}
+
+@keyframes shrinkCover-reverse {
+  0% {
+    content-visibility: hidden;
+    transform: scaleX(0);
+  }
+  50% {
+    content-visibility: visible;
+    transform: scaleX(0);
+  }
+
+  75% {
+    transform: scaleX(0.5);
+  }
+
+  100% {
+    transform: scaleX(1);
+    content-visibility: visible;
   }
 }
